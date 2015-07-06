@@ -1,0 +1,22 @@
+{
+  "name": "angular-shorty",
+  "version": "0.0.1",
+  "homepage": "https://github.com/jtrussell/angular-shorty",
+  "license": "MIT",
+  "main": [
+    "dist/shorty.js"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ],
+  "dependencies": {
+    "angular": "^1.2",
+    "mousetrap": "~1.5.3"
+  },
+  "devDependencies": {
+    "angular-mocks": "^1.2"
+  }
+}
