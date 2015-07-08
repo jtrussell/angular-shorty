@@ -22,7 +22,8 @@ angular.module('shorty')
       mousetrap = m;
     };
 
-    this.$get = ['$window', 'shortySortFilter', function($window, shortySortFilter) {
+    this.$get = ['$window', 'shortySortFilter', 'shortyGroupFilter',
+        function($window, shortySortFilter, shortyGroupFilter) {
       var exports = {}
         , trap = mousetrap || $window.Mousetrap;
 
@@ -93,7 +94,7 @@ angular.module('shorty')
       };
 
       exports.getActiveShortcuts = function(group) {
-        return activeShortcuts;
+        return shortyGroupFilter(activeShortcuts, group);
       };
 
       return exports;

@@ -110,5 +110,15 @@ describe('Service: shorty', function() {
       var shortcuts = shorty.getActiveShortcuts();
       expect(shortcuts.length).toBe(2);
     });
+
+    it('should allow filtering by group', function() {
+      shorty
+        .on('g i', 'event_goToInbox', 'Go to your inbox', 'a')
+        .on('g c', 'event_goToContacts', 'Go to your contacts list', 'b')
+        .on('g d', 'event_goToDen', 'Go to your den', 'a')
+        .broadcastTo(scope);
+      var shortcuts = shorty.getActiveShortcuts('b');
+      expect(shortcuts.length).toBe(1);
+    });
   });
 });
