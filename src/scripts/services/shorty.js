@@ -62,6 +62,7 @@ angular.module('shorty')
         angular.forEach(shortcutsBuffer, function(c) {
           trap.bind(c.combo, function() {
             scope.$broadcast(c.event);
+            scope.$apply();
           });
 
           // Add to list or active shortcuts. First we must make sure there
