@@ -50,4 +50,65 @@ describe('Service: shorty', function() {
 
     expect(wasCalled).toBe(true);
   });
+
+  describe('#getActiveShortcuts', function() {
+    it('should know which shortcuts have been registered', function() {
+      shorty
+        .on('g c', 'event_goToContacts', 'Go to your contacts list', 'Navigation')
+        .on('g i', 'event_goToInbox', 'Go to your inbox', 'Navigation')
+        .broadcastTo(scope);
+      var shortcuts = shorty.getActiveShortcuts();
+      expect(shortcuts).toEqual([{
+        combo: 'g c',
+        event: 'event_goToContacts',
+        group: 'Navigation',
+        desc: 'Go to your contacts list'
+      }, {
+        combo: 'g i',
+        event: 'event_goToInbox',
+        group: 'Navigation',
+        desc: 'Go to your inbox'
+      }]);
+    });
+
+    it('should sort shortcuts by group first', function() {
+      shorty
+        .on('g c', 'event_goToContacts', 'Go to your contacts list', 'b')
+        .on('g i', 'event_goToInbox', 'Go to your inbox', 'a')
+        .broadcastTo(scope);
+      var shortcuts = shorty.getActiveShortcuts();
+      expect(shortcuts[0].event).toBe('event_goToInbox');
+      expect(shortcuts[1].event).toBe('event_goToContacts');
+    });
+
+    it('should sort shortcuts by combo second', function() {
+      shorty
+        .on('g i', 'event_goToInbox', 'Go to your inbox', 'a')
+        .on('g c', 'event_goToContacts', 'Go to your contacts list', 'a')
+        .broadcastTo(scope);
+      var shortcuts = shorty.getActiveShortcuts();
+      expect(shortcuts[0].event).toBe('event_goToContacts');
+      expect(shortcuts[1].event).toBe('event_goToInbox');
+    });
+
+    it('should short ungrouped shortcuts last', function() {
+      shorty
+        .on('g i', 'event_goToInbox', 'Go to your inbox', 'a')
+        .on('g e', 'event_goToEnd', 'Go to your end')
+        .on('g c', 'event_goToContacts', 'Go to your contacts list', 'a')
+        .broadcastTo(scope);
+      var shortcuts = shorty.getActiveShortcuts();
+      expect(shortcuts[2].event).toBe('event_goToEnd');
+    });
+
+    it('should enforce uniqueness on key combinations', function() {
+      shorty
+        .on('g i', 'event_goToInbox', 'Go to your inbox', 'a')
+        .on('g c', 'event_goToContacts', 'Go to your contacts list', 'a')
+        .on('g i', 'event_goToInbox', 'Go to your inbox', 'a')
+        .broadcastTo(scope);
+      var shortcuts = shorty.getActiveShortcuts();
+      expect(shortcuts.length).toBe(2);
+    });
+  });
 });

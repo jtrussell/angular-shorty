@@ -44,15 +44,16 @@ There are a couple things to note here:
    shortcuts.
 
 
-### `shorty.on(keyCombo, eventName, desc)`
+### `shorty.on(keyCombo, eventName[, desc[, group]])`
 
 This method queues up shorty to send notifications whenever the user
 enters the key combination defined by the `keyCombo`, where `keyCombo` is a
 string in the format expected by [Mousetrap][mousetrap]. When the shortcut is
 triggered `eventName` will be `$broadcast`ed to your app.
 
-The `desc` param is currently unused but will eventually help to construct
-helper text (i.e. cheatsheets).
+The `desc` and `group` parameters are optional, they exist maily to help with
+organization and display (i.e. cheatsheets) of your registered shortcuts. See
+`shorty.getActiveShortcuts`.
 
 `shorty.on` returns the shorty service for chaining.
 
@@ -68,6 +69,33 @@ shorty.on('g 1', 'event1', 'Event one').broadcastTo($rootScope);
 // Only scopes under $scope will hear about event2
 shorty.on('g 2', 'event2', 'Event two').broadcastTo($scope);
 ```
+
+### `shorty.getActiveShortcuts([group])`
+
+Returns an array of currently registered shortcuts. Useful e.g. for displaying a
+keyboard shortcut cheatsheet to your users. You may optionally provide a group
+to filter the returned array to just those shortcuts registred with the given
+group name.
+
+```javascript
+var combos = shorty.getActiveShortcuts();
+console.log(combos);
+// -->
+[{
+  combo: 'g i',
+  event: 'event_goToInbox',
+  group: 'Navigation',
+  desc: 'Go to your inbox'
+},{
+  combo: 'g g',
+  event: 'event_goToTop',
+  group: 'Navigation',
+  desc: 'Scroll to the top of the page'
+}]
+```
+
+The returned array of shortcuts will be sorted alphabetically by group and
+combination.
 
 
 ## Testing
