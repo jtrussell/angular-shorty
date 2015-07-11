@@ -1,4 +1,4 @@
-/*global jasmine */
+/*global jasmine, spyOn */
 
 describe('Service: shorty', function() {
   'use strict';
@@ -70,7 +70,7 @@ describe('Service: shorty', function() {
     });
 
     it('should warn the developer when falling back', inject(function($log) {
-      jasmine.spyOn($log, 'debug');
+      spyOn($log, 'debug');
       shorty
         .onGlobal('down', 'event_nextResult', 'Go to next result')
         .broadcastTo(scope);
@@ -89,12 +89,14 @@ describe('Service: shorty', function() {
         combo: 'g c',
         event: 'event_goToContacts',
         group: 'Navigation',
-        desc: 'Go to your contacts list'
+        desc: 'Go to your contacts list',
+        global: false
       }, {
         combo: 'g i',
         event: 'event_goToInbox',
         group: 'Navigation',
-        desc: 'Go to your inbox'
+        desc: 'Go to your inbox',
+        global: false
       }]);
     });
 

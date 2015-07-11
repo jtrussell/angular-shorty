@@ -22,8 +22,8 @@ angular.module('shorty')
       mousetrap = m;
     };
 
-    this.$get = ['$window', 'shortySortFilter', 'shortyGroupFilter',
-        function($window, shortySortFilter, shortyGroupFilter) {
+    this.$get = ['$window', '$log', 'shortySortFilter', 'shortyGroupFilter',
+        function($window, $log, shortySortFilter, shortyGroupFilter) {
       var exports = {}
         , trap = mousetrap || $window.Mousetrap;
 
@@ -39,14 +39,28 @@ angular.module('shorty')
        * @param {String} group A group for help text
        * @return {shorty} This service for chaining
        */
-      exports.on = function(keyCombo, eventName, desc, group) {
+      exports.on = function(keyCombo, eventName, desc, group, global) {
         shortcutsBuffer.push({
           combo: keyCombo,
           event: eventName,
           group: group || '',
-          desc: desc || ''
+          desc: desc || '',
+          global: angular.isDefined(global) ? global : false
         });
         return exports;
+      };
+
+      /**
+       * Register a global keyboard shortuct combo
+       *
+       * @param {String} keyCombo The Mousetrap key combo string
+       * @param {String} eventName The event to broadcast
+       * @param {String} desc A description of the shortcut for help text
+       * @param {String} group A group for help text
+       * @return {shorty} This service for chaining
+       */
+      exports.onGlobal = function(keyCombo, eventName, desc, group) {
+        return exports.on(keyCombo, eventName, desc, group, true);
       };
 
       /**
@@ -60,7 +74,16 @@ angular.module('shorty')
         // Register events, setup destroy handlers, add to list of active
         // shortcuts
         angular.forEach(shortcutsBuffer, function(c) {
-          trap.bind(c.combo, function() {
+          var bindFn = 'bind';
+          if(c.global) {
+            if(angular.isDefined(trap.bindGlobal)) {
+              bindFn = 'bindGlobal';
+            } else {
+              $log.debug('Mousetrap plugin "bindGlobal" not available. Falling back to regular bind');
+            }
+          }
+
+          trap[bindFn](c.combo, function() {
             scope.$broadcast(c.event);
             scope.$apply();
           });

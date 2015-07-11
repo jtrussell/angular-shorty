@@ -57,6 +57,13 @@ organization and display (i.e. cheatsheets) of your registered shortcuts. See
 
 `shorty.on` returns the shorty service for chaining.
 
+### `shorty.onGlobal(keyCombo, eventName[, desc[, group]])`
+
+Identical to `shorty.on` but the shortcut will trigger regardless of whether or
+not an input element has the focus. Note that this requires Mousetrap's global
+bindings plugin, it will fall back on `shorty.on` if the extension is not
+available.
+
 ### `shorty.broadcastTo(scope)`
 
 This method binds all key combinations passed to `shorty.on` since the last call
@@ -81,17 +88,19 @@ group name.
 var combos = shorty.getActiveShortcuts();
 console.log(combos);
 // -->
-[{
-  combo: 'g i',
-  event: 'event_goToInbox',
-  group: 'Navigation',
-  desc: 'Go to your inbox'
-},{
-  combo: 'g g',
-  event: 'event_goToTop',
-  group: 'Navigation',
-  desc: 'Scroll to the top of the page'
-}]
+// [{
+//   combo: 'g i',              // The key combination
+//   event: 'event_goToInbox',  // The event to be broadcasted
+//   group: 'Navigation',       // The shortcut group
+//   desc: 'Go to your inbox',  // The shortcut description
+//   global: false              // Whether or not this is a global shortcut
+// },{
+//   combo: 'g g',
+//   event: 'event_goToTop',
+//   group: 'Navigation',
+//   desc: 'Scroll to the top of the page',
+//   global: false
+// }]
 ```
 
 The returned array of shortcuts will be sorted alphabetically by group and
