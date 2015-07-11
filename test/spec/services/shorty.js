@@ -51,6 +51,33 @@ describe('Service: shorty', function() {
     expect(wasCalled).toBe(true);
   });
 
+  describe('#onGlobal', function() {
+    it('should register global bindings with moustrap if possible', function() {
+      trap.bindGlobal = jasmine.createSpy('bindGlobal');
+      shorty
+        .onGlobal('down', 'event_nextResult', 'Go to next result')
+        .broadcastTo(scope);
+      expect(trap.bindGlobal)
+        .toHaveBeenCalledWith('down', jasmine.any(Function));
+    });
+
+    it('should fall back to using regular bindings', function() {
+      shorty
+        .onGlobal('down', 'event_nextResult', 'Go to next result')
+        .broadcastTo(scope);
+      expect(trap.bind)
+        .toHaveBeenCalledWith('down', jasmine.any(Function));
+    });
+
+    it('should warn the developer when falling back', inject(function($log) {
+      jasmine.spyOn($log, 'debug');
+      shorty
+        .onGlobal('down', 'event_nextResult', 'Go to next result')
+        .broadcastTo(scope);
+      expect($log.debug).toHaveBeenCalled();
+    }));
+  });
+
   describe('#getActiveShortcuts', function() {
     it('should know which shortcuts have been registered', function() {
       shorty
