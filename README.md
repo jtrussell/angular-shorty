@@ -107,6 +107,51 @@ The returned array of shortcuts will be sorted alphabetically by group and
 combination.
 
 
+## The `shorty` Filter
+
+This filter is intended to be used in combination with
+`shoryt.getActiveShortcuts` to help you create pretty keyboard shortcut "cheat
+sheets" for your users by mapping Mousetrap key names to prettified versions of
+the same, e.g.:
+
+```html
+<!-- In -->
+<span>{{"up down" | shorty}}</span>
+
+<!-- Out -->
+↑ ↓ 
+```
+
+It is possible to configure this filter to provider your own custom pretty print
+mappings:
+
+```javascript
+app.config(function(shortyFilterProvider) {
+  shortyFilterProvider.setKeyMap({
+    up: '^',
+    down: 'v'
+  });
+});
+```
+
+As a convenience, the filter can optionally return your combo string as an
+array (note that is is `ng-repeat` safe), just pass `true` as the last
+parameter:
+
+```html
+<!-- In -->
+<ul>
+  <li ng-repeat="'g g g' | shorty:true">
+  </li>
+</ul>
+
+<!-- Out -->
+ • g
+ • g
+ • g 
+```
+
+
 ## Testing
 
 Use `npm test` to run the full suite of linting, style checks, and unit tests.
