@@ -168,7 +168,7 @@ needed when you make changes to source files.
 
 ## Changelog
 
-*(nothing yet)*
+- 2015-07-13 v0.3.0 Add pretty print filter
 
 
 ## License
