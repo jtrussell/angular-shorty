@@ -34,6 +34,14 @@ describe('Service: shorty', function() {
     expect(trap.unbind).toHaveBeenCalledWith('g i');
   });
 
+  it('should have a way to unregister combos', function() {
+    shorty
+      .on('g i', 'event_goToInbox', 'Go to your inbox')
+      .broadcastTo(scope);
+    shorty.off('g i');
+    expect(trap.unbind).toHaveBeenCalled('g i');
+  });
+
   it('should broadcast events when mousetrap handlers are called', function() {
     var wasCalled = false;
 
