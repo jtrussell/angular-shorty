@@ -64,6 +64,17 @@ angular.module('shorty')
       };
 
       /**
+       * De-register a keyboard shortcut
+       *
+       * @param {String} keyCombo The Mousetrap key combo string
+       * @return {shorty} This service for chaining
+       */
+      exports.off = function(keyCombo) {
+        trap.unbind(keyCombo);
+        return exports;
+      };
+
+      /**
        * Close a shortcut registration chain by binding to a scope
        *
        * @param {$scope} scope An angular scope to broadcast to
