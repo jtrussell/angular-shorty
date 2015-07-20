@@ -77,6 +77,12 @@ shorty.on('g 1', 'event1', 'Event one').broadcastTo($rootScope);
 shorty.on('g 2', 'event2', 'Event two').broadcastTo($scope);
 ```
 
+### `shorty.off(keyCombo)`
+
+Use this method to un-register a shortcut. Note that shortcuts are automatically
+"cleaned up" as their associated scopes are destroyed, you only need to use this
+if you want to remove a shortcut whose scope is still living.
+
 ### `shorty.getActiveShortcuts([group])`
 
 Returns an array of currently registered shortcuts. Useful e.g. for displaying a
@@ -119,7 +125,7 @@ the same, e.g.:
 <span>{{"up down" | shorty}}</span>
 
 <!-- Out -->
-↑ ↓ 
+â â 
 ```
 
 It is possible to configure this filter to provider your own custom pretty print
@@ -146,9 +152,9 @@ parameter:
 </ul>
 
 <!-- Out -->
- • g
- • g
- • g 
+ â¢ g
+ â¢ g
+ â¢ g 
 ```
 
 
@@ -168,6 +174,7 @@ needed when you make changes to source files.
 
 ## Changelog
 
+- 2015-07-20 v0.4.0 Add ability to unregister shortcuts
 - 2015-07-13 v0.3.0 Add pretty print filter
 
 
