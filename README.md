@@ -125,7 +125,7 @@ the same, e.g.:
 <span>{{"up down" | shorty}}</span>
 
 <!-- Out -->
-â â 
+↑ ↓
 ```
 
 It is possible to configure this filter to provider your own custom pretty print
@@ -152,9 +152,9 @@ parameter:
 </ul>
 
 <!-- Out -->
- â¢ g
- â¢ g
- â¢ g 
+ - g
+ - g
+ - g 
 ```
 
 
