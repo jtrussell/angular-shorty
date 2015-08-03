@@ -26,6 +26,41 @@ describe('Service: shorty', function() {
     expect(trap.bind).toHaveBeenCalledWith('g i', jasmine.any(Function));
   });
 
+  it('should register combos with mousetrap on keypress', function() {
+    shorty
+      .onKeyPress('g i', 'event_goToInbox', 'Go to your inbox')
+      .broadcastTo(scope);
+    expect(trap.bind).toHaveBeenCalledWith('g i', jasmine.any(Function), 'keypress');
+  });
+
+  it('should register combos with mousetrap on keyup', function() {
+    shorty
+      .onKeyUp('g i', 'event_goToInbox', 'Go to your inbox')
+      .broadcastTo(scope);
+    expect(trap.bind).toHaveBeenCalledWith('g i', jasmine.any(Function), 'keyup');
+  });
+
+  it('should register combos with mousetrap on keydown', function() {
+    shorty
+      .onKeyDown('g i', 'event_goToInbox', 'Go to your inbox')
+      .broadcastTo(scope);
+    expect(trap.bind).toHaveBeenCalledWith('g i', jasmine.any(Function), 'keydown');
+  });
+
+  it('should register combos with mousetrap', function() {
+    shorty
+      .on('g i', 'event_goToInbox', 'Go to your inbox')
+      .broadcastTo(scope);
+    expect(trap.bind).toHaveBeenCalledWith('g i', jasmine.any(Function));
+  });
+
+  it('should register combos with mousetrap', function() {
+    shorty
+      .on('g i', 'event_goToInbox', 'Go to your inbox')
+      .broadcastTo(scope);
+    expect(trap.bind).toHaveBeenCalledWith('g i', jasmine.any(Function));
+  });
+
   it('should unregister combos when a scope is destroyed', function() {
     shorty
       .on('g i', 'event_goToInbox', 'Go to your inbox')
@@ -67,6 +102,33 @@ describe('Service: shorty', function() {
         .broadcastTo(scope);
       expect(trap.bindGlobal)
         .toHaveBeenCalledWith('down', jasmine.any(Function));
+    });
+
+    it('should register combos with mousetrap on keypress', function() {
+      trap.bindGlobal = jasmine.createSpy('bindGlobal');
+      shorty
+        .onGlobalKeyPress('down', 'event_nextResult', 'Go to next result')
+        .broadcastTo(scope);
+      expect(trap.bindGlobal)
+        .toHaveBeenCalledWith('down', jasmine.any(Function), 'keypress');
+    });
+
+    it('should register combos with mousetrap on keyup', function() {
+      trap.bindGlobal = jasmine.createSpy('bindGlobal');
+      shorty
+        .onGlobalKeyUp('down', 'event_nextResult', 'Go to next result')
+        .broadcastTo(scope);
+      expect(trap.bindGlobal)
+        .toHaveBeenCalledWith('down', jasmine.any(Function), 'keyup');
+    });
+
+    it('should register combos with mousetrap on keydown', function() {
+      trap.bindGlobal = jasmine.createSpy('bindGlobal');
+      shorty
+        .onGlobalKeyDown('down', 'event_nextResult', 'Go to next result')
+        .broadcastTo(scope);
+      expect(trap.bindGlobal)
+        .toHaveBeenCalledWith('down', jasmine.any(Function), 'keydown');
     });
 
     it('should fall back to using regular bindings', function() {
