@@ -37,17 +37,32 @@ angular.module('shorty')
        * @param {String} eventName The event to broadcast
        * @param {String} desc A description of the shortcut for help text
        * @param {String} group A group for help text
+       * @param {Boolean} global Whether or not to register a global shortut
+       * @param {String} keyboardEvent The specific keyboard event to listen for
        * @return {shorty} This service for chaining
        */
-      exports.on = function(keyCombo, eventName, desc, group, global) {
+      exports.on = function(keyCombo, eventName, desc, group, global, keyboardEvent) {
         shortcutsBuffer.push({
           combo: keyCombo,
           event: eventName,
           group: group || '',
           desc: desc || '',
-          global: angular.isDefined(global) ? global : false
+          global: angular.isDefined(global) ? global : false,
+          keyboardEvent: keyboardEvent
         });
         return exports;
+      };
+
+      exports.onKeyPress = function(keyCombo, eventName, desc, group) {
+        return exports.on(keyCombo, eventName, desc, group, false, 'keypress');
+      };
+
+      exports.onKeyDown = function(keyCombo, eventName, desc, group) {
+        return exports.on(keyCombo, eventName, desc, group, false, 'keydown');
+      };
+
+      exports.onKeyUp = function(keyCombo, eventName, desc, group) {
+        return exports.on(keyCombo, eventName, desc, group, false, 'keyup');
       };
 
       /**
@@ -61,6 +76,18 @@ angular.module('shorty')
        */
       exports.onGlobal = function(keyCombo, eventName, desc, group) {
         return exports.on(keyCombo, eventName, desc, group, true);
+      };
+
+      exports.onGlobalKeyPress = function(keyCombo, eventName, desc, group) {
+        return exports.on(keyCombo, eventName, desc, group, true, 'keypress');
+      };
+
+      exports.onGlobalKeyDown = function(keyCombo, eventName, desc, group) {
+        return exports.on(keyCombo, eventName, desc, group, true, 'keydown');
+      };
+
+      exports.onGlobalKeyUp = function(keyCombo, eventName, desc, group) {
+        return exports.on(keyCombo, eventName, desc, group, true, 'keyup');
       };
 
       /**
