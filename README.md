@@ -193,6 +193,7 @@ needed when you make changes to source files.
 
 ## Changelog
 
+- 2015-07-20 v0.5.0 Add `onKeyPress` and company
 - 2015-07-20 v0.4.0 Add ability to unregister shortcuts
 - 2015-07-13 v0.3.0 Add pretty print filter
 
