@@ -64,6 +64,23 @@ not an input element has the focus. Note that this requires Mousetrap's global
 bindings plugin, it will fall back on `shorty.on` if the extension is not
 available.
 
+
+### `shorty.on[Global]Key(Up|Down|Press)`
+
+For certain shortcuts you may wish to specify which keyboard events should be
+listened for (e.g. keyup vs. keydown). This is typically handed internally but
+you may use the following methods to only consider the corresponding keyboard
+events, they otherwise behave like `shorty.on` and `shorty.onGlobal`
+respectively:
+
+- `shorty.onKeyPress`
+- `shorty.onKeyUp`
+- `shorty.onKeyDown`
+- `shorty.onGlobalKeyPress`
+- `shorty.onGlobalKeyUp`
+- `shorty.onGlobalKeyDown`
+
+
 ### `shorty.broadcastTo(scope)`
 
 This method binds all key combinations passed to `shorty.on` since the last call
@@ -99,13 +116,15 @@ console.log(combos);
 //   event: 'event_goToInbox',  // The event to be broadcasted
 //   group: 'Navigation',       // The shortcut group
 //   desc: 'Go to your inbox',  // The shortcut description
-//   global: false              // Whether or not this is a global shortcut
+//   global: false,             // Whether or not this is a global shortcut
+//   keyboardEvent: false       // User specified keyboard event (see e.g. onKeyUp) if any, false otherwise
 // },{
 //   combo: 'g g',
 //   event: 'event_goToTop',
 //   group: 'Navigation',
 //   desc: 'Scroll to the top of the page',
-//   global: false
+//   global: false,
+//   keyboardEvent: 'keypress'
 // }]
 ```
 
@@ -125,7 +144,7 @@ the same, e.g.:
 <span>{{"up down" | shorty}}</span>
 
 <!-- Out -->
-↑ ↓
+ÃÂ¢ÃÂÃÂ ÃÂ¢ÃÂÃÂ
 ```
 
 It is possible to configure this filter to provider your own custom pretty print

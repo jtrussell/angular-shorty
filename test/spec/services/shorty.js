@@ -152,7 +152,7 @@ describe('Service: shorty', function() {
     it('should know which shortcuts have been registered', function() {
       shorty
         .on('g c', 'event_goToContacts', 'Go to your contacts list', 'Navigation')
-        .on('g i', 'event_goToInbox', 'Go to your inbox', 'Navigation')
+        .onKeyUp('g i', 'event_goToInbox', 'Go to your inbox', 'Navigation')
         .broadcastTo(scope);
       var shortcuts = shorty.getActiveShortcuts();
       expect(shortcuts).toEqual([{
@@ -160,13 +160,15 @@ describe('Service: shorty', function() {
         event: 'event_goToContacts',
         group: 'Navigation',
         desc: 'Go to your contacts list',
-        global: false
+        global: false,
+        keyboardEvent: false
       }, {
         combo: 'g i',
         event: 'event_goToInbox',
         group: 'Navigation',
         desc: 'Go to your inbox',
-        global: false
+        global: false,
+        keyboardEvent: 'keyup'
       }]);
     });
 

@@ -48,19 +48,48 @@ angular.module('shorty')
           group: group || '',
           desc: desc || '',
           global: angular.isDefined(global) ? global : false,
-          keyboardEvent: keyboardEvent
+          keyboardEvent: keyboardEvent || false
         });
         return exports;
       };
 
+      /**
+       * Like `on` but just for `keypress` keyboard events
+       *
+       * @param {String} keyCombo The Mousetrap key combo string
+       * @param {String} eventName The event to broadcast
+       * @param {String} desc A description of the shortcut for help text
+       * @param {String} group A group for help text
+       * @return {<type>}
+       */
       exports.onKeyPress = function(keyCombo, eventName, desc, group) {
         return exports.on(keyCombo, eventName, desc, group, false, 'keypress');
       };
 
+
+      /**
+       * Like `on` but just for `keydown` keyboard events
+       *
+       * @param {String} keyCombo The Mousetrap key combo string
+       * @param {String} eventName The event to broadcast
+       * @param {String} desc A description of the shortcut for help text
+       * @param {String} group A group for help text
+       * @return {shorty} This service for chaining
+       */
       exports.onKeyDown = function(keyCombo, eventName, desc, group) {
         return exports.on(keyCombo, eventName, desc, group, false, 'keydown');
       };
 
+
+      /**
+       * Like `on` but just for `keyup` keyboard events
+       *
+       * @param {String} keyCombo The Mousetrap key combo string
+       * @param {String} eventName The event to broadcast
+       * @param {String} desc A description of the shortcut for help text
+       * @param {String} group A group for help text
+       * @return {shorty} This service for chaining
+       */
       exports.onKeyUp = function(keyCombo, eventName, desc, group) {
         return exports.on(keyCombo, eventName, desc, group, false, 'keyup');
       };
@@ -78,14 +107,41 @@ angular.module('shorty')
         return exports.on(keyCombo, eventName, desc, group, true);
       };
 
+      /**
+       * Like `onGlobal` but just for `keypress` keyboard events
+       *
+       * @param {String} keyCombo The Mousetrap key combo string
+       * @param {String} eventName The event to broadcast
+       * @param {String} desc A description of the shortcut for help text
+       * @param {String} group A group for help text
+       * @return {shorty} This service for chaining
+       */
       exports.onGlobalKeyPress = function(keyCombo, eventName, desc, group) {
         return exports.on(keyCombo, eventName, desc, group, true, 'keypress');
       };
 
+      /**
+       * Like `onGlobal` but just for `keydown` keyboard events
+       *
+       * @param {String} keyCombo The Mousetrap key combo string
+       * @param {String} eventName The event to broadcast
+       * @param {String} desc A description of the shortcut for help text
+       * @param {String} group A group for help text
+       * @return {shorty} This service for chaining
+       */
       exports.onGlobalKeyDown = function(keyCombo, eventName, desc, group) {
         return exports.on(keyCombo, eventName, desc, group, true, 'keydown');
       };
 
+      /**
+       * Like `onGlobal` but just for `keyup` keyboard events
+       *
+       * @param {String} keyCombo The Mousetrap key combo string
+       * @param {String} eventName The event to broadcast
+       * @param {String} desc A description of the shortcut for help text
+       * @param {String} group A group for help text
+       * @return {shorty} This service for chaining
+       */
       exports.onGlobalKeyUp = function(keyCombo, eventName, desc, group) {
         return exports.on(keyCombo, eventName, desc, group, true, 'keyup');
       };
@@ -121,10 +177,16 @@ angular.module('shorty')
             }
           }
 
-          trap[bindFn](c.combo, function() {
+          var args = [c.combo, function() {
             scope.$broadcast(c.event);
             scope.$apply();
-          });
+          }];
+
+          if(c.keyboardEvent) {
+            args.push(c.keyboardEvent);
+          }
+
+          trap[bindFn].apply(trap, args);
 
           // Add to list or active shortcuts. First we must make sure there
           // doesn't already exist a shortuct with this key combo... if so kill
