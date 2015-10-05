@@ -7,11 +7,11 @@ describe('Service: shorty', function() {
     , trap
     , scope;
 
-  beforeEach(module('shorty', function(shortyProvider) {
+  beforeEach(module('shorty', function(shortyMousetrapProvider) {
     trap = {};
     trap.bind = jasmine.createSpy('bind');
     trap.unbind = jasmine.createSpy('unbind');
-    shortyProvider.setMousetrap(trap);
+    shortyMousetrapProvider.setMousetrap(trap);
   }));
 
   beforeEach(inject(function(_shorty_, $rootScope) {

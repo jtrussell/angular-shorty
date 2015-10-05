@@ -144,10 +144,10 @@ the same, e.g.:
 <span>{{"up down" | shorty}}</span>
 
 <!-- Out -->
-ÃÂ¢ÃÂÃÂ ÃÂ¢ÃÂÃÂ
+ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ
 ```
 
-It is possible to configure this filter to provider your own custom pretty print
+It is possible to configure this filter to provide your own custom pretty print
 mappings:
 
 ```javascript
@@ -175,6 +175,22 @@ parameter:
  - g
  - g 
 ```
+
+
+## Configuration
+
+By default we look for `Mousetrap` in the global scope but if you want to
+provider your own mousetrap instance or constructor you can do so using the
+`shortyMousetrapProvider`:
+
+```
+app.config(function(shortyMousetrapProvider) {
+  shortyMousetrapProvider.setMousetrap(MyMousetrap);
+});
+```
+
+Subsequenty you can use the `shortyMousetrap` service to retrieve the active
+Mousetrap with `shortyMousetrap.get()`.
 
 
 ## Testing

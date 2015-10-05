@@ -72,6 +72,7 @@ module.exports = function(grunt) {
         src: ['src/scripts/*.js', 'src/scripts/**/*.js'],
         options: {
           specs: 'test/spec/**/*.js',
+          summary: true,
           vendor: [
             'bower_components/angular/angular.js',
             'bower_components/angular-mocks/angular-mocks.js'
