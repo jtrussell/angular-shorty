@@ -140,11 +140,16 @@ angular.module('shorty')
     /**
      * De-register a keyboard shortcut
      *
+     * You may optionally provide a mousetrap instance to unbind `keyCombo`
+     * from.
+     *
      * @param {String} keyCombo The Mousetrap key combo string
+     * @param {Mousetrap} trap An optional Mousetrap instance
      * @return {shorty} This service for chaining
      */
-    exports.off = function(keyCombo) {
-      Trap.unbind(keyCombo);
+    exports.off = function(keyCombo, trap) {
+      trap = trap || Trap;
+      trap.unbind(keyCombo);
       return exports;
     };
 

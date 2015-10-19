@@ -77,6 +77,13 @@ describe('Service: shorty', function() {
     expect(trap.unbind).toHaveBeenCalledWith('g i');
   });
 
+  it('should have a way to unregister combos from a given mousetrap instance', function() {
+    var t = {};
+    t.unbind = jasmine.createSpy('unbind');
+    shorty.off('g i', t);
+    expect(t.unbind).toHaveBeenCalledWith('g i');
+  });
+
   it('should broadcast events when mousetrap handlers are called', function() {
     var wasCalled = false;
 
