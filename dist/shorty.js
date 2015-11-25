@@ -456,6 +456,15 @@ angular.module('shorty')
         // To optimize... one $destroy handler
         scope.$on('$destroy', function() {
           t.unbind(c.combo);
+          if(!el) {
+            var ix;
+            for(ix = activeShortcuts.length; ix--;) {
+              if(c.combo === activeShortcuts[ix].combo) {
+                activeShortcuts.splice(ix, 1);
+                ix = 0;
+              }
+            }
+          }
         });
       });
 

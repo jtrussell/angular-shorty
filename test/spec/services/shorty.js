@@ -255,5 +255,15 @@ describe('Service: shorty', function() {
       var shortcuts = shorty.getActiveShortcuts('b');
       expect(shortcuts.length).toBe(1);
     });
+
+    it('should unregister active shortcuts when a scope is destroyed', function() {
+      shorty
+        .on('g i', 'event_goToInbox', 'Go to your inbox')
+        .broadcastTo(scope);
+      scope.$destroy();
+      var shortcuts = shorty.getActiveShortcuts();
+      expect(shortcuts.length).toBe(0);
+    });
+
   });
 });
