@@ -388,11 +388,16 @@ angular.module('shorty')
     /**
      * De-register a keyboard shortcut
      *
+     * You may optionally provide a mousetrap instance to unbind `keyCombo`
+     * from.
+     *
      * @param {String} keyCombo The Mousetrap key combo string
+     * @param {Mousetrap} trap An optional Mousetrap instance
      * @return {shorty} This service for chaining
      */
-    exports.off = function(keyCombo) {
-      Trap.unbind(keyCombo);
+    exports.off = function(keyCombo, trap) {
+      trap = trap || Trap;
+      trap.unbind(keyCombo);
       return exports;
     };
 
@@ -427,7 +432,7 @@ angular.module('shorty')
 
         Trap[bindFn].apply(Trap, args);
 
-        // Add to list or active shortcuts. First we must make sure there
+        // Add to list of active shortcuts. First we must make sure there
         // doesn't already exist a shortuct with this key combo... if so kill
         // it (it may have a different group and/or description). Then, insert
         // this shortcut in the appropriate spot... could use some
