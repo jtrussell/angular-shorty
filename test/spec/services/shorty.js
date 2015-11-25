@@ -199,7 +199,7 @@ describe('Service: shorty', function() {
       expect(shortcuts[1].event).toBe('event_goToInbox');
     });
 
-    it('should short ungrouped shortcuts last', function() {
+    it('should sort ungrouped shortcuts last', function() {
       shorty
         .on('g i', 'event_goToInbox', 'Go to your inbox', 'a')
         .on('g e', 'event_goToEnd', 'Go to your end')
