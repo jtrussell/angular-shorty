@@ -405,16 +405,18 @@ angular.module('shorty')
      * Close a shortcut registration chain by binding to a scope
      *
      * @param {$scope} scope An angular scope to broadcast to
+     * @param {$element} el An angular element to restrict bindings to
      * @return {shorty} This service for chaining
      */
-    exports.broadcastTo = function(scope) {
+    exports.broadcastTo = function(scope, el) {
+      var t = el ? shortyMousetrap.getAttachedTo(el) : Trap;
 
       // Register events, setup destroy handlers, add to list of active
       // shortcuts
       angular.forEach(shortcutsBuffer, function(c) {
         var bindFn = 'bind';
         if(c.global) {
-          if(angular.isDefined(Trap.bindGlobal)) {
+          if(angular.isDefined(t.bindGlobal)) {
             bindFn = 'bindGlobal';
           } else {
             $log.debug('Mousetrap plugin "bindGlobal" not available. Falling back to regular bind');
@@ -430,25 +432,30 @@ angular.module('shorty')
           args.push(c.keyboardEvent);
         }
 
-        Trap[bindFn].apply(Trap, args);
+        t[bindFn].apply(t, args);
 
         // Add to list of active shortcuts. First we must make sure there
         // doesn't already exist a shortuct with this key combo... if so kill
         // it (it may have a different group and/or description). Then, insert
         // this shortcut in the appropriate spot... could use some
         // optimization.
-        var ix;
-        for(ix = activeShortcuts.length; ix--;) {
-          if(c.combo === activeShortcuts[ix].combo) {
-            activeShortcuts.splice(ix, 1);
-            ix = 0;
+        //
+        // Shortcuts restricted to an element are assumed to be i.e. "widget"
+        // shortuts and shouldn't pollute the global list of active shortcuts.
+        if(!el) {
+          var ix;
+          for(ix = activeShortcuts.length; ix--;) {
+            if(c.combo === activeShortcuts[ix].combo) {
+              activeShortcuts.splice(ix, 1);
+              ix = 0;
+            }
           }
+          activeShortcuts.push(c); // We'll do all our sorting at the end.
         }
-        activeShortcuts.push(c); // We'll do all our sorting at the end.
 
         // To optimize... one $destroy handler
         scope.$on('$destroy', function() {
-          Trap.unbind(c.combo);
+          t.unbind(c.combo);
         });
       });
 

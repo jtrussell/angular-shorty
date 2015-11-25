@@ -26,6 +26,19 @@ describe('Service: shorty', function() {
     expect(trap.bind).toHaveBeenCalledWith('g i', jasmine.any(Function));
   });
 
+  it('should register combos with an element specific mousetrap', inject(function(shortyMousetrap) {
+    var el = 'I am an element'
+      , trap2 = {};
+    trap2.bind = jasmine.createSpy('bind');
+    spyOn(shortyMousetrap, 'getAttachedTo').and.callFake(function(_el) {
+      return _el === el ? trap2 : trap;
+    });
+    shorty
+      .on('g i', 'event_goToInbox', 'Go to your inbox')
+      .broadcastTo(scope, el);
+    expect(trap2.bind).toHaveBeenCalledWith('g i', jasmine.any(Function));
+  }));
+
   it('should register combos with mousetrap on keypress', function() {
     shorty
       .onKeyPress('g i', 'event_goToInbox', 'Go to your inbox')
@@ -178,6 +191,20 @@ describe('Service: shorty', function() {
         keyboardEvent: 'keyup'
       }]);
     });
+
+    it('should not know about shortcuts restricted to an element', inject(function(shortyMousetrap) {
+      var el = 'I am an element'
+        , trap2 = {};
+      trap2.bind = jasmine.createSpy('bind');
+      spyOn(shortyMousetrap, 'getAttachedTo').and.callFake(function(_el) {
+        return _el === el ? trap2 : trap;
+      });
+      shorty
+        .on('g i', 'event_goToInbox', 'Go to your inbox')
+        .broadcastTo(scope, el);
+      var shortcuts = shorty.getActiveShortcuts();
+      expect(shortcuts.length).toBe(0);
+    }));
 
     it('should sort shortcuts by group first', function() {
       shorty
