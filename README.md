@@ -81,7 +81,7 @@ respectively:
 - `shorty.onGlobalKeyDown`
 
 
-### `shorty.broadcastTo(scope)`
+### `shorty.broadcastTo(scope[, el])`
 
 This method binds all key combinations passed to `shorty.on` since the last call
 to `shorty.broadcast` to the angular scope `scope`. I.e.:
@@ -93,6 +93,38 @@ shorty.on('g 1', 'event1', 'Event one').broadcastTo($rootScope);
 // Only scopes under $scope will hear about event2
 shorty.on('g 2', 'event2', 'Event two').broadcastTo($scope);
 ```
+
+By default, shortcuts are picked up regardless of where in your appliation they
+are triggered. Sometimes it may be desireable to restrict your shortcuts to a
+specific element, e.g. you may want to create widget/directive specific
+shortcuts. To do this, supply an angular element as the second argument to
+`shorty.broadcastTo`. A new mousetrap instance for your element
+(so widgets don't clobber each others' shortcuts) and the shortuts will be
+registerd with it.
+
+```javascript
+// Typically $scope will be attached to myElement
+shorty.on('g 2', 'event2', 'Event two').broadcastTo($scope, myElement);
+```
+
+Note: at present only a single shortcut chain per element is supported:
+
+```javascript
+// OK so far...
+shorty
+  .on('g 1', 'event1', 'Event one')
+  .on('g 2', 'event2', 'Event two')
+  .broadcastTo($scope, myElement);
+
+// Oh no! We clobbered the two shortcuts above! This `on(...)` should be added
+// to the chain above.
+shorty
+  .on('g 3', 'event3', 'Event three')
+  .broadcastTo($scope, myElement);
+```
+
+Note: at present you will not be able to deregister element specific shortcuts
+manually. They will be cleaned up with their associated scope is destroyed.
 
 ### `shorty.off(keyCombo)`
 
