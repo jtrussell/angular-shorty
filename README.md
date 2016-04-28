@@ -171,13 +171,11 @@ This filter is intended to be used in combination with
 sheets" for your users by mapping Mousetrap key names to prettified versions of
 the same, e.g.:
 
-```html
-<!-- In -->
-<span>{{"up down" | shorty}}</span>
+<pre><code>&lt;!-- In --&gt;
+&lt;span&gt;{{"up down" | shorty}}&lt;/span&gt;
 
-<!-- Out -->
-ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ
-```
+&lt;!-- Out --&gt;
+&uarr; &darr;</code></pre>
 
 It is possible to configure this filter to provide your own custom pretty print
 mappings:
@@ -205,7 +203,7 @@ parameter:
 <!-- Out -->
  - g
  - g
- - g 
+ - g
 ```
 
 
