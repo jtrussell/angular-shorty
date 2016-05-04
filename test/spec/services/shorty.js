@@ -7,10 +7,15 @@ describe('Service: shorty', function() {
     , trap
     , scope;
 
+  var makeMockTrap = function() {
+    var t = {};
+    t.bind = jasmine.createSpy('bind');
+    t.unbind = jasmine.createSpy('unbind');
+    return t;
+  };
+
   beforeEach(module('shorty', function(shortyMousetrapProvider) {
-    trap = {};
-    trap.bind = jasmine.createSpy('bind');
-    trap.unbind = jasmine.createSpy('unbind');
+    trap = makeMockTrap();
     shortyMousetrapProvider.setMousetrap(trap);
   }));
 
@@ -28,8 +33,7 @@ describe('Service: shorty', function() {
 
   it('should register combos with an element specific mousetrap', inject(function(shortyMousetrap) {
     var el = 'I am an element'
-      , trap2 = {};
-    trap2.bind = jasmine.createSpy('bind');
+      , trap2 = makeMockTrap();
     spyOn(shortyMousetrap, 'getAttachedTo').and.callFake(function(_el) {
       return _el === el ? trap2 : trap;
     });
@@ -194,8 +198,7 @@ describe('Service: shorty', function() {
 
     it('should not know about shortcuts restricted to an element', inject(function(shortyMousetrap) {
       var el = 'I am an element'
-        , trap2 = {};
-      trap2.bind = jasmine.createSpy('bind');
+        , trap2 = makeMockTrap();
       spyOn(shortyMousetrap, 'getAttachedTo').and.callFake(function(_el) {
         return _el === el ? trap2 : trap;
       });
